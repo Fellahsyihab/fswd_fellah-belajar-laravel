@@ -1,6 +1,6 @@
 <!-- dalam file index.blade.php -->
 
-@extends('layout.main')
+@extends('layouts.main')
 
 @section('konten')
     <div class="card">
