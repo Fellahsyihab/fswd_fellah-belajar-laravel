@@ -20,4 +20,15 @@ class HomeController extends Controller
     {
         return view('pages.dashboard');
     }
+
+    public function admin()
+    {
+        return view('pages.admin');
+    }
+
+    public function user()
+    {
+        return view('pages.user');
+    }
+
 }

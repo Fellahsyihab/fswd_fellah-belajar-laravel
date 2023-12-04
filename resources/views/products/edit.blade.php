@@ -21,8 +21,9 @@
                         <label for="category">Category:</label>
                         <select class="form-control" id="category" name="category_id" required>
                             <!-- Pilihan kategori -->
-                            <option value="1" {{ $product->category_id == 1 ? 'selected' : '' }}>Laptop</option>
-                            <option value="2" {{ $product->category_id == 2 ? 'selected' : '' }}>Handphone</option>
+                            <option value="1" {{ $product->category_id == 1 ? 'selected' : '' }}>Aksesoris</option>
+                            <option value="2" {{ $product->category_id == 2 ? 'selected' : '' }}>Sports</option>
+                            <option value="3" {{ $product->category_id == 3 ? 'selected' : '' }}>Pakaian</option>
                         </select>
                     </div>
                     <div class="form-group">

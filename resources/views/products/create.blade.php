@@ -20,8 +20,9 @@
                         <label for="category">Category:</label>
                         <select class="form-control" id="category" name="category_id" required>
                             <!-- Pilihan kategori -->
-                            <option value="1">Laptop</option>
-                            <option value="2">Handphone</option>
+                            <option value="1">Aksesoris</option>
+                            <option value="2">Sports</option>
+                            <option value="3">Pakaian</option>
                         </select>
                     </div>
                     <div class="form-group">

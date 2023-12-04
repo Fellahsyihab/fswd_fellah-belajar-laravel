@@ -35,39 +35,49 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+          <li class="nav-item">
+            <a href="{{ route('beranda') }}" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="{{ url('/dashboard') }}" class="nav-link active">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Dashboard</p>
-                    </a>
-                </li>
-            </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{ url('products') }}" class="nav-link">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Tables
-                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="{{ url('/products') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>DataTables</p>
-                    </a>
-                </li>
-            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('admin') }}" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Admin
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{ route('user') }}" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                User
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+                <!-- Authentication -->
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-dropdown-link :href="route('logout')"
+                            onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
           </li>
         </ul>
       </nav>
