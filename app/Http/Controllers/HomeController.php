@@ -2,33 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// app/Http/Controllers/HomeController.php
+
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
-    public function hello()
-    {
-        return view('hello-world');
-    }
-
-    public function biodata()
-    {
-        return view('biodata');
-    }
-
     public function index()
     {
-        return view('pages.dashboard');
-    }
+        $totalProducts = Product::count();
+        $totalCategories = Category::count();
+        $totalPrice = Product::sum('price');
+        $totalStock = Product::sum('stock');
 
-    public function admin()
-    {
-        return view('pages.admin');
-    }
+        $categories = Category::withCount('products')->get();
 
-    public function user()
-    {
-        return view('pages.user');
+        return view('pages.dashboard', compact('totalProducts', 'totalCategories', 'totalPrice', 'totalStock', 'categories'));
     }
-
 }

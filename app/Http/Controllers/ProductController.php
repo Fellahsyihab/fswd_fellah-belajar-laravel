@@ -2,95 +2,95 @@
 
 namespace App\Http\Controllers;
 
-// dalam file ProductController.php
-
-use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+    // Mendapatkan semua produk
     public function index()
     {
-        $products = DB::table('products')
-            ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->select('products.*', 'categories.name as category_name')
-            ->get();
+        $products = Product::all();
 
-        return view('products.index', compact('products'));
+        return response()->json(['data' => $products], 200);
     }
 
-    public function create()
-    {
-        // Ambil data kategori untuk dropdown
-        $categories = DB::table('categories')->get();
-
-        return view('products.create', compact('categories'));
-    }
-
+    // Membuat produk baru
     public function store(Request $request)
     {
-        // Validasi form jika diperlukan
-        $request->validate([
-            // Sesuaikan dengan aturan validasi yang diperlukan
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'category_id' => 'required|integer',
+            'product_code' => 'required|string',
+            'price' => 'required|numeric',
+            'unit' => 'required|string',
+            'stock' => 'required|integer',
+            'description' => 'nullable|string',
+            'image' => 'nullable|string',
         ]);
 
-        // Simpan data produk baru
-        $product = new Product([
-            'name' => $request->input('name'),
-            'category_id' => $request->input('category_id'),
-            'product_code' => $request->input('product_code'),
-            'price' => $request->input('price'),
-            'unit' => $request->input('unit'),
-            'stock' => $request->input('stock'),
-            'description' => $request->input('description'),
-            'image' => $request->input('image'),
-        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-        $product->save();
+        $product = Product::create($request->all());
 
-        return redirect('/products')->with('success', 'Product added successfully!');
+        return response()->json(['data' => $product, 'message' => 'Product added successfully!'], 201);
     }
 
-    public function edit($id)
+    // Mendapatkan detail produk berdasarkan ID
+    public function show($id)
     {
-        // Ambil data produk yang akan diedit
-        $product = DB::table('products')->where('id', $id)->first();
+        $product = Product::find($id);
 
-        // Ambil data kategori untuk dropdown
-        $categories = DB::table('categories')->get();
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
 
-        return view('products.edit', compact('product', 'categories'));
+        return response()->json(['data' => $product], 200);
     }
 
+    // Mengupdate produk berdasarkan ID
     public function update(Request $request, $id)
     {
-        // Validasi form jika diperlukan
-        $request->validate([
-            // Sesuaikan dengan aturan validasi yang diperlukan
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'category_id' => 'required|integer',
+            'product_code' => 'required|string',
+            'price' => 'required|numeric',
+            'unit' => 'required|string',
+            'stock' => 'required|integer',
+            'description' => 'nullable|string',
+            'image' => 'nullable|string',
         ]);
 
-        // Update data produk
-        DB::table('products')->where('id', $id)->update([
-            'name' => $request->input('name'),
-            'category_id' => $request->input('category_id'),
-            'product_code' => $request->input('product_code'),
-            'price' => $request->input('price'),
-            'unit' => $request->input('unit'),
-            'stock' => $request->input('stock'),
-            'description' => $request->input('description'),
-            'image' => $request->input('image'),
-        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 400);
+        }
 
-        return redirect('/products')->with('success', 'Product updated successfully!');
+        $product->update($request->all());
+
+        return response()->json(['data' => $product, 'message' => 'Product updated successfully!'], 200);
     }
 
+    // Menghapus produk berdasarkan ID
     public function destroy($id)
     {
-        // Hapus data produk
-        DB::table('products')->where('id', $id)->delete();
+        $product = Product::find($id);
 
-        return redirect('/products')->with('success', 'Product deleted successfully!');
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully!'], 200);
     }
 }
-

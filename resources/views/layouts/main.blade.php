@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Dashboard</title>
+  <script src="{{ asset('js/highcharts.js') }}"></script>
+
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -41,6 +43,7 @@
   <div class="content-wrapper">
 
     @yield('konten')
+    @stack('scripts')
 
   </div>
 
@@ -54,6 +57,10 @@
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
+
+<script src="{{ asset('node_modules/chart.js/dist/Chart.min.js') }}"></script>
+    <!-- Tautan ke file highcharts.js -->
+    <script src="{{ asset('node_modules/highcharts/highcharts.js') }}"></script>
 
 <!-- jQuery -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>

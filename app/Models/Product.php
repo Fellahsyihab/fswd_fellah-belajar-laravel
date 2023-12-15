@@ -24,4 +24,9 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function scopeSumPrice($query)
+    {
+        return $query->selectRaw('SUM(price) as sum_price')->groupBy('category_id');
+    }
 }
